@@ -3,12 +3,12 @@
 # mastring-script on them.
 
 # variables
-	# scripts to run
-	farmersInputScript="$( dirname "$0" )"/scripts/farmersEdlImport.sh
-	farmersOutputScript="$( dirname "$0" )"/scripts/farmersEdlExport.sh
 	# Where to look for files
 	farmersInputFolder=~/Desktop/Edl_To_farmers/
 	farmersOutputFolder=~/Desktop/Edl_To_FCP/
+	# scripts to run
+	farmersInputScript="$( dirname "$0" )"/scripts/farmersEdlImport.sh
+	farmersOutputScript="$( dirname "$0" )"/scripts/farmersEdlExport.sh
 	# how often to check for new files
 	repeatSeconds=2
 
@@ -37,7 +37,10 @@ function runScriptOnFolder(){
 	if [[ $(ls "$folder") != "" ]] ; then 
 		for file in "$folder"*.edl ; do
 			if $( echo "$file" | grep -q converted ) ; then
-				echo "ignoring $file"
+				# if the file is older than 5 minutes
+				if test "`find "$file" -mmin +5`"  ; then 
+					rm "$file" # delete it
+				fi
 			else
 				echo "Converting "$(basename "$file")"..."
 				"$script" "$file"
@@ -51,11 +54,13 @@ function runScriptOnFolder(){
 	# every x-seconds, look for new files in the folder
 	while true 
 	do
+		echo "Running scripts on "$farmersInputFolder" and "$farmersOutputFolder" "
+
+		# Run the scripts
 		runScriptOnFolder "$farmersInputScript" "$farmersInputFolder" 
 		runScriptOnFolder "$farmersOutputScript" "$farmersOutputFolder" 
 		
-		# wait before checking again
+		# Wait before checking again
 		sleep "$repeatSeconds"
+		clear
 	done 
-
-#done
