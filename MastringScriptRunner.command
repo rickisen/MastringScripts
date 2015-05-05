@@ -30,7 +30,7 @@
 	while true 
 	do
 		# first we check for edl:s to farmers - ignore those marked converted
-		for file in "$farmersInputFolder"* ; do
+		for file in "$farmersInputFolder*" ; do
 			if [[ ! $( echo "$file" | grep -q converted* )  ]] ; then
 				echo "Converting "$(basename "$file")" from FCP to Farmers..."
 				"$farmersInputScript" "$file"
@@ -39,7 +39,7 @@
 		done
 
 		# then we check for edl:s from farmers - ignore those marked converted
-		for file in "$farmersOutputFolder"* ; do
+		for file in "$farmersOutputFolder*" ; do
 			if [[ ! $( echo "$file" | grep -q converted* )  ]] ; then
 				echo "Converting "$(basename "$file")" from Farmers to FCP..."
 				"$farmersOutputScript" "$file"
