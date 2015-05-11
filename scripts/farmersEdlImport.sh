@@ -63,12 +63,14 @@
 # tidy up the resulting file
 	# remove From clip name field and stylize the output some
 	# and output to destination
-	cat "$tempEDL" | sed -e s?"* FROM CLIP NAME:  "?""?g 	\
-			     -e s?".MOV"?""?g 			\
-			     -e s?"_"?" "?g 			\
-			     -e s?"PRORES4444"?""?g 		\
-			     -e s?"PRORES422HQ"?""?g 		\
-			     -e s?"V[0-9][0-9][0-9]"?""?g 	\
+	cat "$tempEDL" | sed -e s?"* FROM CLIP NAME:  "?""?g 		\
+			     -e s?".MOV"?""?g		     	 	\
+			     -e s?"_"?" "?g 		     	 	\
+			     -e s?"PRORES4444"?""?g 	     	 	\
+			     -e s?"PRORES422HQ"?""?g 	     	 	\
+			     -e s?"[0-9][0-9][0-9][0-9][0-9]"?""?g	\
+			     -e s?"[0-9][0-9][0-9][0-9][0-9][0-9]"?""?g	\
+			     -e s?"V[0-9][0-9][0-9]"?""?g 		\
 	       			 >> "$destinationEdl"
 
 # cleanup
